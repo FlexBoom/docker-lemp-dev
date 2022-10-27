@@ -7,8 +7,10 @@ services:
     links:
       - mysql
       - redis
+    user: 1000:1000
     volumes:
       - ./application/:/var/www/html/
+      - ./application/xdebug/:/var/www/html/xdebug/
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
 
   mysql:
