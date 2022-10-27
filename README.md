@@ -1,6 +1,6 @@
 # Docker LEMP development
 
-[![Test docker build](https://github.com/FlexBoom/docker-lemp-dev/actions/workflows/build.yml/badge.svg)](https://github.com/FlexBoom/docker-lemp-dev/actions/workflows/build.yml)
+[![build](https://github.com/FlexBoom/docker-lemp-dev/actions/workflows/build.yml/badge.svg)](https://github.com/FlexBoom/docker-lemp-dev/actions/workflows/build.yml)
 
 Do not use in production.
 
