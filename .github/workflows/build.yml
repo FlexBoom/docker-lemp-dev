@@ -1,0 +1,16 @@
+name: Test docker build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+   runs-on: ubuntu-latest
+
+   steps:
+     - uses: actions/checkout@v2
+     - name: Build Docker image
+       run: docker build
