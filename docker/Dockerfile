@@ -1,4 +1,4 @@
-FROM php:fpm
+FROM php:8.1-fpm
 
 # PHP
 RUN apt-get update -y && apt-get install -y --no-install-recommends libpng16-16 libzip4 libfreetype6-dev libpng-dev libjpeg62-turbo libjpeg62-turbo-dev libicu-dev libgmp-dev libzip-dev \

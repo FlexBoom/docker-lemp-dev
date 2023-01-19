@@ -6,7 +6,7 @@ Do not use in production.
 
 Name    | Version | Port
 --------|---------|----------
-nginx   | latest  | 80
+nginx   | latest  | 8080
 PHP     | latest  | 9000
 MySQL   | latest  | 3306
 Xdebug  | latest  | 9003
