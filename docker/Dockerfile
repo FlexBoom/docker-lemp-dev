@@ -1,26 +1,19 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm-alpine
 
-# PHP
-RUN apt-get update -y && apt-get install -y --no-install-recommends libpng16-16 libzip4 libfreetype6-dev libpng-dev libjpeg62-turbo libjpeg62-turbo-dev libicu-dev libgmp-dev libzip-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd intl bcmath gmp zip pdo_mysql pcntl \
-    && docker-php-ext-enable gd intl bcmath gmp zip pdo_mysql pcntl \
-    && docker-php-source delete \
-    && apt-get purge -y libpng-dev libfreetype6-dev libjpeg62-turbo-dev libicu-dev libonig-dev libgmp-dev libzip-dev
+RUN apk update && apk upgrade && apk add --no-cache $PHPIZE_DEPS gmp-dev libzip-dev zlib-dev libpng-dev libwebp-dev libjpeg-turbo-dev freetype-dev icu-dev imagemagick-dev libmemcached-dev linux-headers \
+    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install gd gmp zip pdo pdo_mysql opcache \
+    && docker-php-ext-enable gd gmp zip pdo pdo_mysql opcache \
+    && pecl install imagick redis memcached xdebug \
+    && docker-php-ext-enable imagick redis memcached xdebug
 
-# PECL
-RUN apt-get update -y && apt-get install -y --no-install-recommends libmagickwand-6.q16-6 libmagickwand-dev libmcrypt4 libmcrypt-dev libmemcached11 libmemcached-dev \
-    && pecl install imagick redis mcrypt memcached \
-    && docker-php-ext-enable imagick redis mcrypt memcached \
-    && apt-get purge -y libmagickwand-dev libmcrypt-dev libmemcached-dev
-
-# Xdebug
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
 COPY ./xdebug/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-RUN apt-get clean -y && apt-get autoremove --purge -y && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN useradd -ms /bin/bash docker
+RUN adduser -D -s /bin/sh docker
+
+# TODO
+# - Check if extensions like gmp already is bundled with PHP
+# - Test with a Laravel installation
+# - Test xdebug
