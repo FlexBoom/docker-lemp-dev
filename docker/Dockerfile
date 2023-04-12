@@ -5,9 +5,12 @@ ARG GID
 
 RUN pear config-set php_ini "$PHP_INI_DIR"
 
-RUN apk update && apk upgrade && apk add --no-cache $PHPIZE_DEPS libzip-dev zlib-dev gmp-dev libmemcached-dev linux-headers imagemagick-dev libpng-dev libwebp-dev libjpeg-turbo-dev freetype-dev \
+RUN apk update && apk upgrade && apk add --no-cache $PHPIZE_DEPS libzip-dev zlib-dev \
+    gmp-dev libmemcached-dev linux-headers imagemagick-dev libpng-dev libwebp-dev \
+    libjpeg-turbo-dev freetype-dev icu-dev \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install gd gmp pdo_mysql opcache zip
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install gd gmp pdo_mysql opcache zip bcmath intl
 
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 
